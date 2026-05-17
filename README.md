@@ -97,6 +97,8 @@ http://localhost:5173/admin
 
 - Booking data is stored locally in JSON for easy development.
 - Admin authentication uses a local JWT secret. Set `JWT_SECRET` in production-like environments.
+- The frontend calls `/api` on the same origin. In local development, Vite proxies `/api` to the backend.
+- Set `CORS_ORIGINS` only if you intentionally call the API from another domain.
 - The app is structured so storage, authentication, and admin roles can be replaced with a production database and proper user management later.
 
 ## VPS Deployment

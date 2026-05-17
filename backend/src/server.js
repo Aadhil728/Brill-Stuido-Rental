@@ -15,32 +15,29 @@ const __dirname = path.dirname(__filename);
 const frontendDistPath = path.resolve(__dirname, '..', '..', 'frontend', 'dist');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const configuredOrigins = (process.env.FRONTEND_ORIGIN || '')
+const configuredOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_ORIGIN || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
-const allowedOrigins = new Set([
-  ...configuredOrigins,
-  'http://localhost:5173',
-  'http://localhost:5174',
-  'http://127.0.0.1:5173',
-  'http://127.0.0.1:5174'
-]);
+const allowedOrigins = new Set(configuredOrigins);
 const localDevOriginPattern = /^http:\/\/(localhost|127\.0\.0\.1):\d+$/;
+const isProduction = process.env.NODE_ENV === 'production';
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.has(origin) || localDevOriginPattern.test(origin)) {
-        callback(null, true);
-        return;
-      }
+if (!isProduction || allowedOrigins.size > 0) {
+  app.use(
+    cors({
+      origin(origin, callback) {
+        if (!origin || allowedOrigins.has(origin) || (!isProduction && localDevOriginPattern.test(origin))) {
+          callback(null, true);
+          return;
+        }
 
-      callback(new Error(`CORS blocked request from ${origin}`));
-    },
-    credentials: true
-  })
-);
+        callback(new Error(`CORS blocked request from ${origin}`));
+      },
+      credentials: true
+    })
+  );
+}
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -51,7 +48,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 
-if (process.env.NODE_ENV === 'production') {
+if (isProduction) {
   app.use(express.static(frontendDistPath));
   app.get('*', (req, res) => {
     res.sendFile(path.join(frontendDistPath, 'index.html'));

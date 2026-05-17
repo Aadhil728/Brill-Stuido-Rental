@@ -1,7 +1,4 @@
-const localApiBaseUrl =
-  typeof window !== 'undefined' ? `${window.location.protocol}//${window.location.hostname}:5000/api` : 'http://localhost:5000/api';
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.PROD ? '/api' : localApiBaseUrl);
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
 const TOKEN_KEY = 'brill_admin_token';
 
 async function request(path, options = {}) {

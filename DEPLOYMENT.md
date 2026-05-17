@@ -92,7 +92,7 @@ Set:
 NODE_ENV=production
 PORT=5000
 JWT_SECRET=use-a-long-random-secret
-FRONTEND_ORIGIN=https://studio.yourdomain.com
+CORS_ORIGINS=
 ```
 
 Generate a strong secret if needed:
@@ -142,6 +142,8 @@ Create the Nginx site:
 ```bash
 nano /etc/nginx/sites-available/brill-studio
 ```
+
+The frontend calls the backend through `/api` on the same domain, so do not set a separate frontend API URL in production. Nginx should proxy the whole subdomain to Node on port `5000`.
 
 Paste this and replace the domain:
 
