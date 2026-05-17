@@ -1,0 +1,23 @@
+[
+  {
+    "id": "X6K6CXPWA8Js",
+    "customerName": "Aadhil",
+    "email": "mohamedaadhil0728@gmai.com",
+    "phone": "767988672",
+    "bookingDate": "2026-05-17",
+    "startTime": "15:30",
+    "hours": 2,
+    "serviceType": "Studio Rental Only",
+    "selectedEquipment": [
+      "Lighting & Grip Kit",
+      "Video Kit",
+      "Photography Kit",
+      "Camera Kit",
+      "Pro Audio Gear"
+    ],
+    "notes": "This is a test booking to confirm it is working",
+    "estimatedTotal": 2850,
+    "status": "Confirmed",
+    "createdAt": "2026-05-17T09:24:57.066Z"
+  }
+]
